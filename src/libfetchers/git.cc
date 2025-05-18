@@ -571,6 +571,9 @@ struct GitInputScheme : InputScheme
 
         auto originalRef = input.getRef();
         bool shallow = getShallowAttr(input);
+        if (input.getRev() && input.getRef())
+            throw Error("Cannot specify both \"rev\" and \"ref\" at the same time");
+
         auto ref = originalRef ? *originalRef : getDefaultRef(repoInfo, shallow);
         input.attrs.insert_or_assign("ref", ref);
 
